@@ -34,6 +34,10 @@ echo '[+] bootstrapping the base installation'
 echo '[+] generating the filesystem table'
 /usr/bin/genfstab -p ${TARGET_DIR} >> "${TARGET_DIR}/etc/fstab"
 
+if [[ -f ./mirrorlist ]]; then
+    echo '[+] setting mirrors'
+    cp ./mirrorlist "${TARGET_DIR}/etc/pacman.d/mirrorlist"
+fi
 
 CONFIG_SCRIPT_PATH="${TARGET_DIR}/${CONFIG_SCRIPT}"
 echo "[+] generating the system configuration script '$CONFIG_SCRIPT_PATH'"

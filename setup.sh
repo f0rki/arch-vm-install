@@ -6,7 +6,7 @@ echo "KEYMAP=${KEYMAP}" > /etc/vconsole.conf
 /usr/bin/sed -i "s/#${LANGUAGE}/${LANGUAGE}/" /etc/locale.gen
 /usr/bin/locale-gen
 /usr/bin/mkinitcpio -p linux
-/usr/bin/usermod --password $(openssl passwd -crypt "$PASSWORD") root
+printf "$PASSWORD\n$PASSWORD\n" | passwd root
 # https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
 /usr/bin/ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
 /usr/bin/ln -s '/usr/lib/systemd/system/dhcpcd@.service' '/etc/systemd/system/multi-user.target.wants/dhcpcd@eth0.service'
