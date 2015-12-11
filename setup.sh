@@ -14,7 +14,7 @@ printf "$PASSWORD\n$PASSWORD\n" | passwd root
 /usr/bin/systemctl enable sshd.service
 
 /usr/bin/dirmngr < /dev/null
-/usr/bin/pacman-keys --refresh-keys
+/usr/bin/pacman-key --refresh-keys
 /usr/bin/pacman -Syu --noconfirm
 /usr/bin/pacman-db-upgrade
 /usr/bin/pacman -Syu --noconfirm
