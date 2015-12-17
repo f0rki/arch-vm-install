@@ -1,4 +1,4 @@
-# Vagrant-specific configuration
+echo '[+] setting up Vagrant-specific configuration'
 /usr/bin/groupadd vagrant
 /usr/bin/useradd --password ${PASSWORD} --comment 'Vagrant User' --create-home --gid users --groups vagrant vagrant
 echo 'Defaults env_keep += "SSH_AUTH_SOCK"' > /etc/sudoers.d/10_vagrant

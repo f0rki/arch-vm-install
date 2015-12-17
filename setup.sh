@@ -1,4 +1,5 @@
 #### setup the system from within the arch chroot
+set -eux -o pipefail
 
 echo "${FQDN}" > /etc/hostname
 /usr/bin/ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
