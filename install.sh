@@ -61,6 +61,14 @@ if [[ "$VIRTUALBOX" == "yes" ]]; then
     echo "[+] setting up for virtualbox use"
     cat vbox.sh >> "$CONFIG_SCRIPT_PATH"
 fi
+if [[ "$ROOT_TTY_AUTOLOGIN" == "yes" ]]; then
+    echo "[+] setting up autologin for root on tty1"
+    cat root-auto-tty.sh >> "$CONFIG_SCRIPT_PATH"
+fi
+if [[ "$ROOT_ALLOW_SSH" == "yes" ]]; then
+    echo "[+] setting up autologin for root on tty1"
+    cat root-ssh.sh >> "$CONFIG_SCRIPT_PATH"
+fi
 
 echo '[+] entering chroot and configuring system'
 /usr/bin/arch-chroot ${TARGET_DIR} ${CONFIG_SCRIPT}
