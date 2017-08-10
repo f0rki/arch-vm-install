@@ -1,7 +1,9 @@
 #### setup the system from within the arch chroot
-set -eux -o pipefail
+set -eu -o pipefail
+set -x
 
 echo "${FQDN}" > /etc/hostname
+/usr/bin/rm /etc/localtime
 /usr/bin/ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 echo "KEYMAP=${KEYMAP}" > /etc/vconsole.conf
 /usr/bin/sed -i "s/#${LANGUAGE}/${LANGUAGE}/" /etc/locale.gen
@@ -18,4 +20,4 @@ printf "$PASSWORD\n$PASSWORD\n" | passwd root
 /usr/bin/pacman-key --refresh-keys
 /usr/bin/pacman -Syu --noconfirm
 /usr/bin/pacman-db-upgrade
-/usr/bin/pacman -Syu --noconfirm
+/usr/bin/pacman -Syu --noconfirm openssh $PACKAGE_LIST

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -eux -o pipefail
+set -eu -o pipefail
+#set -x
 
 source config.sh
 
@@ -50,25 +51,34 @@ cat config.sh >> "$CONFIG_SCRIPT_PATH"
 echo "" >> "$CONFIG_SCRIPT_PATH"
 
 # basic setup from within
-cat setup.sh >> "$CONFIG_SCRIPT_PATH"
+cat files/setup.sh >> "$CONFIG_SCRIPT_PATH"
 echo "" >> "$CONFIG_SCRIPT_PATH"
 
 if [[ "$VAGRANT" == "yes" ]]; then
     echo "[+] setting up for vagrant use"
-    cat vagrant.sh >> "$CONFIG_SCRIPT_PATH"
+    cat modules/vagrant.sh >> "$CONFIG_SCRIPT_PATH"
 fi
 if [[ "$VIRTUALBOX" == "yes" ]]; then
     echo "[+] setting up for virtualbox use"
-    cat vbox.sh >> "$CONFIG_SCRIPT_PATH"
+    cat modules/vbox.sh >> "$CONFIG_SCRIPT_PATH"
 fi
 if [[ "$ROOT_TTY_AUTOLOGIN" == "yes" ]]; then
     echo "[+] setting up autologin for root on tty1"
-    cat root-auto-tty.sh >> "$CONFIG_SCRIPT_PATH"
+    cat modules/root-auto-tty.sh >> "$CONFIG_SCRIPT_PATH"
 fi
 if [[ "$ROOT_ALLOW_SSH" == "yes" ]]; then
     echo "[+] setting up autologin for root on tty1"
-    cat root-ssh.sh >> "$CONFIG_SCRIPT_PATH"
+    cat modules/root-ssh.sh >> "$CONFIG_SCRIPT_PATH"
 fi
+if [[ ${#GITHUB_USER_SSHKEYS} -ge 1 ]]; then
+    echo "[+] adding keys from github user"
+    cat modules/github.sh >> "$CONFIG_SCRIPT_PATH"
+fi
+if [[ ${#CREATE_USER} -ge 1 ]]; then
+    echo "[+] create user $CREATE_USER with sudo rights"
+    cat modules/create_user.sh >> "$CONFIG_SCRIPT_PATH"
+fi
+
 
 echo '[+] entering chroot and configuring system'
 /usr/bin/arch-chroot ${TARGET_DIR} ${CONFIG_SCRIPT}
@@ -87,4 +97,5 @@ echo '[+] installation complete!'
 /usr/bin/sync
 /usr/bin/sleep 3
 /usr/bin/umount ${TARGET_DIR}
+/usr/bin/sync
 /usr/bin/systemctl reboot
