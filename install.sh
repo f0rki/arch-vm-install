@@ -54,6 +54,10 @@ echo "" >> "$CONFIG_SCRIPT_PATH"
 cat files/setup.sh >> "$CONFIG_SCRIPT_PATH"
 echo "" >> "$CONFIG_SCRIPT_PATH"
 
+if [[ ${#MIRROR_COUNTRY} -ge 1 ]]; then
+    echo "[+] setting up fastest mirror"
+    cat modules/fast_mirror.sh >> "$CONFIG_SCRIPT_PATH"
+fi
 if [[ "$VAGRANT" == "yes" ]]; then
     echo "[+] setting up for vagrant use"
     cat modules/vagrant.sh >> "$CONFIG_SCRIPT_PATH"
