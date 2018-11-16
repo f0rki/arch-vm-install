@@ -1,7 +1,7 @@
 ###############################################################################
 
 echo '[+] setting up $CREATE_USER-specific configuration'
-/usr/bin/groupadd users
+/usr/bin/groupadd users || true
 /usr/bin/useradd --password ${PASSWORD} \
     --comment '$CREATE_USER User' \
     --create-home --gid users --groups users $CREATE_USER
